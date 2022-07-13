@@ -1,0 +1,37 @@
+---
+  - name: Create ec2 instance
+    hosts: local
+    connection: local
+
+    tasks:
+      - name: Create New EC2 Instance
+        amazon.aws.ec2_instance:
+          name: "web app Ubuntu"
+          instance_type: t2.micro
+          image_id: ami-0fb391cce7a602d1f
+          region: eu-west-2
+          count: 1
+          network:
+            assign_public_ip: yes
+            security_group: default
+            vpc_subnet_id: subnet-07502af8e09a5ed7a
+          state: present
+          tags:
+            foo: bar
+
+
+  - name: Create ec2 keyair
+    hosts: local
+    connection: local
+
+    tasks:
+      - name: Create new keypair
+        amazon.aws.ec2_key:
+          name: web app Ubuntu
+          region: eu-west-2
+        register: ec2_key_result
+
+
+      - name: Save private keypair
+        copy: content="{{ ec2_key_result.key.private_key }}" dest="./aws.webapp_ubuntu.pem" mode=600
+        when: ec2_key_result.changed  
