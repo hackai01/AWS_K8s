@@ -1,0 +1,12 @@
+---
+  - name: T-800
+    hosts: local
+    connection: local
+
+    tasks:
+      - name: Terminate Every Running Instance
+        amazon.aws.ec2_instance:
+          region: eu-west-2
+          state: absent
+          filters:
+            instance-state-name: running
