@@ -4,11 +4,12 @@
     connection: local
 
     tasks:
-      - name: Create New EC2 INstance
+      - name: Create New EC2 Instance
         amazon.aws.ec2_instance:
           name: "web app 1"
           instance_type: t2.micro
           image_id: ami-078a289ddf4b09ae0
+          key_name: web_app_ec2_key
           region: eu-west-2
           count: 1
           network:
@@ -17,18 +18,23 @@
             vpc_subnet_id: subnet-07502af8e09a5ed7a
           state: present
           tags:
-            foo: bar
+            Env: "dev"
+            Management: "Ansible"
 
 
-  - name: Create ec2 keyair
+  - name: Create ec2 keypair
     hosts: local
     connection: local
 
     tasks:
       - name: Create new keypair
         amazon.aws.ec2_key:
-          name: web app 1
+          name: web_app_ec2_key
           region: eu-west-2
+          tags:
+            Env: "dev"
+            Managment: "Ansible"
+          state: present
         register: ec2_key_result
 
 
