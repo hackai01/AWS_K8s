@@ -26,4 +26,6 @@ ansible [core 2.13.1]
 Run "aws configure"
 - Input IAM secret key and ID you noted down earlier
 
+There is a host file in this repo that I am not using but will be doing at some point. You many need to specify the python onterpriter but Ive done that in my local host file for the local input. Let me know if youre having issues.
+
 Grab a playbook from the repo like the create ec2 yaml and see if it works.
